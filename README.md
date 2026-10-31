@@ -13,7 +13,7 @@ Getestet mit G502 Lightspeed und Lightspeed-Empfänger 046D:C539. Andere Lightsp
 
 ## Windows
 
-Python von [python.org](https://www.python.org/downloads/) installieren, dabei „Add python.exe to PATH“ ankreuzen. Dann in PowerShell:
+Python 3.11 oder neuer von [python.org](https://www.python.org/downloads/) installieren. Dann in PowerShell:
 
 ```powershell
 irm https://raw.githubusercontent.com/Kipry/Logitech-G502-driver/main/install.ps1 | iex

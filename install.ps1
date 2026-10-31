@@ -7,11 +7,7 @@ $ErrorActionPreference = 'Stop'
 $repo = 'https://github.com/Kipry/Logitech-G502-driver/archive/refs/heads/main.zip'
 $dest = Join-Path $env:LOCALAPPDATA 'G502'
 
-if (-not (Get-Command py -ErrorAction SilentlyContinue)) {
-    Write-Host 'Python fehlt. Bitte von https://www.python.org/downloads/ installieren'
-    Write-Host '(dabei "Add python.exe to PATH" ankreuzen) und diesen Befehl erneut ausfuehren.'
-    return
-}
+# Python sucht windows-einrichten.bat (py, python oder die ueblichen Installationsordner).
 
 Write-Host 'Lade G502 herunter ...'
 $zip = Join-Path $env:TEMP 'g502-main.zip'
