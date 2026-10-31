@@ -1,0 +1,3 @@
+# Windows-Dateien mit CRLF unverändert speichern und ausliefern.
+*.bat -text
+*.ps1 -text

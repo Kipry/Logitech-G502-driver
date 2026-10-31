@@ -1,0 +1,899 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>G502 Belegung</title>
+<style>
+:root {
+  --bg: #f4f4f2;
+  --panel: #ffffff;
+  --panel-2: #f0f0ed;
+  --line: #e2e2dd;
+  --text: #1c1c1a;
+  --muted: #6d6d68;
+  --accent: #0a7cff;
+  --accent-soft: #e3efff;
+  --danger: #d9342b;
+  --ok: #1f9d55;
+  --mouse: #2a2a2c;
+  --mouse-edge: #48484c;
+  --mouse-spot: #6a6a70;
+  --shadow: 0 1px 2px rgb(0 0 0 / .05), 0 4px 16px rgb(0 0 0 / .04);
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #141415;
+    --panel: #1d1d1f;
+    --panel-2: #252528;
+    --line: #2f2f33;
+    --text: #ededea;
+    --muted: #9a9a95;
+    --accent: #3d95ff;
+    --accent-soft: #16263d;
+    --danger: #ff5a4f;
+    --ok: #3cc47a;
+    --mouse: #0d0d0e;
+    --mouse-edge: #3a3a3e;
+    --mouse-spot: #55555b;
+    --shadow: none;
+    color-scheme: dark;
+  }
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 14px/1.45 -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+button, input, select { font: inherit; color: inherit; }
+button { cursor: pointer; }
+.wrap { max-width: 1120px; margin: 0 auto; padding: 20px 20px 110px; }
+
+header { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
+header h1 { font-size: 20px; margin: 0; font-weight: 650; letter-spacing: -.01em; }
+header .meta { color: var(--muted); font-size: 13px; }
+header .spacer { flex: 1; }
+.pill { font-size: 12px; padding: 3px 9px; border-radius: 99px; background: var(--panel-2); color: var(--muted); white-space: nowrap; }
+
+.btn {
+  border: 1px solid var(--line); background: var(--panel); border-radius: 8px;
+  padding: 7px 13px; font-weight: 500; transition: background .15s, border-color .15s, transform .1s;
+}
+.btn:hover { border-color: color-mix(in srgb, var(--text) 25%, var(--line)); }
+.btn:active { transform: scale(.97); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+.btn.primary:hover { background: color-mix(in srgb, var(--accent) 88%, #000); }
+.btn.danger { color: var(--danger); }
+.btn:disabled { opacity: .45; cursor: default; transform: none; }
+.btn.small { padding: 4px 9px; font-size: 13px; }
+
+.tabs { display: flex; gap: 6px; margin-bottom: 16px; overflow-x: auto; padding-bottom: 2px; }
+.tab {
+  border: 1px solid var(--line); background: var(--panel); border-radius: 10px;
+  padding: 8px 14px; display: flex; flex-direction: column; align-items: flex-start; min-width: 120px;
+  text-align: left; transition: border-color .15s, background .15s;
+}
+.tab .n { font-size: 11px; color: var(--muted); display: flex; gap: 6px; align-items: center; }
+.tab .t { font-weight: 600; max-width: 150px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.tab.sel { border-color: var(--accent); background: var(--accent-soft); }
+.tab .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--line); }
+.tab .dot.on { background: var(--muted); }
+.tab .dot.active { background: var(--ok); }
+.tab .changed { color: var(--accent); font-weight: 700; }
+
+.grid { display: grid; grid-template-columns: 300px 1fr; gap: 16px; align-items: start; }
+@media (max-width: 860px) { .grid { grid-template-columns: 1fr; } .mousebox { max-width: 340px; margin: 0 auto; } }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; box-shadow: var(--shadow); }
+.card h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 0 0 10px; font-weight: 600; }
+.card .body { padding: 16px; }
+
+.mousebox { padding: 14px 10px 6px; position: sticky; top: 16px; }
+.mousebox svg { width: 100%; height: auto; display: block; }
+.spot { cursor: pointer; }
+.spot circle { fill: var(--mouse-spot); stroke: var(--mouse); stroke-width: 2; transition: fill .15s, r .15s; }
+.spot text { fill: #fff; font-size: 10px; font-weight: 700; text-anchor: middle; dominant-baseline: central; pointer-events: none; }
+.spot:hover circle { fill: color-mix(in srgb, var(--accent) 60%, var(--mouse-spot)); }
+.spot.sel circle { fill: var(--accent); }
+.spot.changed circle { stroke: var(--accent); stroke-width: 2.5; }
+.mousebox .hint { text-align: center; color: var(--muted); font-size: 12px; margin: 4px 0 6px; }
+@keyframes hue { to { filter: hue-rotate(360deg); } }
+.logo-cycle { animation: hue 6s linear infinite; }
+
+.layer { display: inline-flex; background: var(--panel-2); border-radius: 8px; padding: 2px; margin-bottom: 10px; }
+.layer button { border: 0; background: transparent; padding: 5px 12px; border-radius: 6px; font-size: 13px; color: var(--muted); }
+.layer button.on { background: var(--panel); color: var(--text); box-shadow: var(--shadow); font-weight: 600; }
+
+.rows { display: flex; flex-direction: column; }
+.row {
+  display: grid; grid-template-columns: 110px 1fr auto; gap: 10px; align-items: center;
+  padding: 9px 10px; border-radius: 9px; border: 1px solid transparent; background: none; text-align: left; width: 100%;
+  transition: background .12s;
+}
+.row:hover { background: var(--panel-2); }
+.row.sel { background: var(--accent-soft); border-color: color-mix(in srgb, var(--accent) 35%, transparent); }
+.row .k { font-weight: 600; }
+.row .k small { display: block; font-weight: 400; color: var(--muted); font-size: 12px; }
+.row .edit { color: var(--muted); font-size: 12px; opacity: 0; transition: opacity .12s; }
+.row:hover .edit, .row.sel .edit { opacity: 1; }
+.row .mark { color: var(--accent); font-weight: 700; margin-left: 4px; }
+.act { display: flex; flex-wrap: wrap; gap: 4px; align-items: center; min-width: 0; }
+.kbd {
+  display: inline-flex; align-items: center; justify-content: center; min-width: 24px; height: 24px; padding: 0 7px;
+  border-radius: 6px; background: var(--panel); border: 1px solid var(--line); border-bottom-width: 2px;
+  font-size: 13px; font-weight: 600; font-family: -apple-system, system-ui, sans-serif;
+}
+.tag { font-size: 12px; padding: 2px 8px; border-radius: 6px; background: var(--panel-2); color: var(--muted); }
+.macro { color: var(--muted); font-size: 13px; overflow: hidden; text-overflow: ellipsis; }
+
+.settings { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 16px; }
+@media (max-width: 860px) { .settings { grid-template-columns: 1fr; } }
+.field { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; flex-wrap: wrap; }
+.field > label:first-child { width: 110px; color: var(--muted); }
+.input {
+  border: 1px solid var(--line); background: var(--panel); border-radius: 8px; padding: 6px 9px; min-width: 0;
+}
+.input:focus { outline: 2px solid color-mix(in srgb, var(--accent) 45%, transparent); outline-offset: 0; border-color: var(--accent); }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+.seg button { border: 0; background: var(--panel); padding: 5px 11px; border-right: 1px solid var(--line); font-size: 13px; }
+.seg button:last-child { border-right: 0; }
+.seg button.on { background: var(--accent); color: #fff; }
+
+.dpi-table { width: 100%; border-collapse: collapse; }
+.dpi-table th { text-align: left; font-weight: 500; color: var(--muted); font-size: 12px; padding: 0 6px 6px 0; }
+.dpi-table td { padding: 3px 6px 3px 0; }
+.dpi-table input[type=number] { width: 96px; }
+.dpi-table input[type=radio] { accent-color: var(--accent); width: 16px; height: 16px; }
+.x { border: 0; background: none; color: var(--muted); font-size: 16px; padding: 2px 6px; border-radius: 6px; }
+.x:hover { background: var(--panel-2); color: var(--danger); }
+
+.switch { position: relative; width: 38px; height: 22px; flex: none; }
+.switch input { opacity: 0; width: 0; height: 0; position: absolute; }
+.switch span { position: absolute; inset: 0; background: var(--line); border-radius: 99px; transition: background .15s; cursor: pointer; }
+.switch span::after { content: ""; position: absolute; left: 3px; top: 3px; width: 16px; height: 16px; border-radius: 50%; background: #fff; transition: transform .18s; box-shadow: 0 1px 2px rgb(0 0 0 / .2); }
+.switch input:checked + span { background: var(--ok); }
+.switch input:checked + span::after { transform: translateX(16px); }
+.switch input:disabled + span { opacity: .5; cursor: default; }
+.note { color: var(--muted); font-size: 12px; }
+
+.footer {
+  position: fixed; left: 0; right: 0; bottom: 0; padding: 12px 20px;
+  background: color-mix(in srgb, var(--panel) 88%, transparent); backdrop-filter: blur(12px);
+  border-top: 1px solid var(--line); transform: translateY(110%); transition: transform .25s cubic-bezier(.2,.8,.2,1);
+}
+.footer.show { transform: none; }
+.footer .in { max-width: 1120px; margin: 0 auto; display: flex; align-items: center; gap: 10px; }
+.footer .in .spacer { flex: 1; }
+
+dialog {
+  border: 1px solid var(--line); border-radius: 16px; padding: 0; background: var(--panel); color: var(--text);
+  width: min(560px, calc(100vw - 32px)); box-shadow: 0 20px 60px rgb(0 0 0 / .25);
+}
+dialog::backdrop { background: rgb(0 0 0 / .35); }
+dialog .head { padding: 16px 18px 0; display: flex; align-items: center; }
+dialog .head h3 { margin: 0; font-size: 17px; flex: 1; }
+dialog .content { padding: 14px 18px; max-height: 60vh; overflow: auto; }
+dialog .actions { padding: 12px 18px 16px; display: flex; gap: 8px; justify-content: flex-end; border-top: 1px solid var(--line); }
+
+.rec {
+  width: 100%; border: 2px dashed var(--line); border-radius: 12px; background: var(--panel-2);
+  padding: 18px; display: flex; flex-direction: column; align-items: center; gap: 8px; min-height: 92px; justify-content: center;
+  transition: border-color .15s, background .15s;
+}
+.rec:focus { outline: none; border-color: var(--accent); border-style: solid; background: var(--accent-soft); }
+.rec .big { display: flex; gap: 5px; }
+.rec .big .kbd { height: 34px; min-width: 34px; font-size: 16px; }
+.rec .lbl { color: var(--muted); font-size: 13px; }
+.manual { display: flex; gap: 8px; margin: 10px 0 4px; }
+.manual input { flex: 1; }
+.groups { margin-top: 14px; display: flex; flex-direction: column; gap: 10px; }
+.group h4 { margin: 0 0 6px; font-size: 12px; color: var(--muted); font-weight: 600; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip { border: 1px solid var(--line); background: var(--panel); border-radius: 8px; padding: 5px 10px; font-size: 13px; }
+.chip:hover { border-color: var(--accent); }
+.chip.on { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+.diff { width: 100%; border-collapse: collapse; font-size: 13px; }
+.diff td { padding: 5px 6px; border-bottom: 1px solid var(--line); vertical-align: top; }
+.diff td:first-child { color: var(--muted); white-space: nowrap; }
+.diff .old { color: var(--muted); text-decoration: line-through; }
+.diff h4 { margin: 12px 0 4px; }
+
+.busy { position: fixed; inset: 0; display: none; align-items: center; justify-content: center; background: rgb(0 0 0 / .25); z-index: 50; }
+.busy.show { display: flex; }
+.busy div { background: var(--panel); border-radius: 12px; padding: 16px 22px; display: flex; gap: 12px; align-items: center; box-shadow: 0 10px 40px rgb(0 0 0 / .2); }
+.spin { width: 18px; height: 18px; border: 2px solid var(--line); border-top-color: var(--accent); border-radius: 50%; animation: spin .8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.toast {
+  position: fixed; left: 50%; bottom: 84px; transform: translate(-50%, 20px); opacity: 0;
+  background: var(--text); color: var(--bg); padding: 9px 16px; border-radius: 10px; font-weight: 500;
+  transition: opacity .2s, transform .2s; pointer-events: none; z-index: 60; max-width: calc(100vw - 32px);
+}
+.toast.show { opacity: 1; transform: translate(-50%, 0); }
+.toast.err { background: var(--danger); color: #fff; }
+
+header .nav { margin: 0 0 0 8px; }
+.apps { width: 100%; border-collapse: collapse; }
+.apps td { padding: 8px 6px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+.apps tr:last-child td { border-bottom: 0; }
+.apps img { width: 28px; height: 28px; display: block; }
+.apps .nm { font-weight: 600; }
+.apps .id { color: var(--muted); font-size: 12px; }
+.apps select { width: 100%; max-width: 240px; }
+.log { list-style: none; margin: 0; padding: 0; font-size: 13px; }
+.log li { padding: 4px 0; display: flex; gap: 10px; }
+.log .t { color: var(--muted); font-variant-numeric: tabular-nums; }
+.empty { padding: 60px 20px; text-align: center; color: var(--muted); }
+details.backups summary { cursor: pointer; color: var(--muted); }
+details.backups .field { margin-top: 10px; }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>G502</h1>
+    <div class="layer nav" id="nav">
+      <button data-view="tasten" class="on">Tasten</button>
+      <button data-view="programme">Programme</button>
+    </div>
+    <span class="meta" id="device"></span>
+    <span class="pill" id="battery" hidden></span>
+    <span class="spacer"></span>
+    <button class="btn small" id="reload">Neu lesen</button>
+  </header>
+  <div id="app"><div class="empty">Lese Maus …</div></div>
+  <div id="appsView" hidden></div>
+</div>
+
+<div class="footer" id="footer">
+  <div class="in">
+    <span id="dirtyText"></span>
+    <span class="spacer"></span>
+    <button class="btn" id="discard">Verwerfen</button>
+    <button class="btn primary" id="write">In die Maus schreiben</button>
+  </div>
+</div>
+
+<dialog id="editDlg">
+  <div class="head"><h3 id="editTitle"></h3><button class="x" data-close>✕</button></div>
+  <div class="content">
+    <button class="rec" id="rec">
+      <span class="big" id="recKeys"></span>
+      <span class="lbl" id="recLbl">Hier klicken, dann Tastenkombination drücken</span>
+    </button>
+    <div class="manual">
+      <input class="input" id="manual" placeholder="oder eintippen, z. B. cmd+w" autocomplete="off" spellcheck="false">
+    </div>
+    <div class="note" id="manualNote">Kürzel, die macOS selbst benutzt (Schreibtisch wechseln, Spotlight, ⌘Tab …), kommen hier nicht an. Die unter „macOS“ wählen oder eintippen.</div>
+    <div class="groups" id="groups"></div>
+  </div>
+  <div class="actions">
+    <button class="btn" data-close>Abbrechen</button>
+    <button class="btn primary" id="editOk">Übernehmen</button>
+  </div>
+</dialog>
+
+<dialog id="planDlg">
+  <div class="head"><h3>Änderungen schreiben</h3><button class="x" data-close>✕</button></div>
+  <div class="content" id="planBody"></div>
+  <div class="actions">
+    <button class="btn" data-close>Abbrechen</button>
+    <button class="btn primary" id="planOk">Schreiben</button>
+  </div>
+</dialog>
+
+<dialog id="askDlg">
+  <div class="content"><p id="askText" style="margin:4px 0 0"></p></div>
+  <div class="actions">
+    <button class="btn" data-close>Abbrechen</button>
+    <button class="btn primary" id="askOk">OK</button>
+  </div>
+</dialog>
+
+<div class="busy" id="busy"><div><span class="spin"></span><span id="busyText"></span></div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+const $ = (s, el = document) => el.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+
+// Physische Taste (KeyboardEvent.code) <-> Name, wie ihn die Maus-Konfiguration kennt.
+const CODE_TO_KEY = {
+  Enter: "enter", Escape: "esc", Backspace: "backspace", Tab: "tab", Space: "leertaste",
+  Minus: "-", Equal: "=", BracketLeft: "[", BracketRight: "]", Backslash: "\\", Semicolon: ";",
+  Quote: "'", Backquote: "`", Comma: ",", Period: ".", Slash: "/", CapsLock: "capslock", IntlBackslash: "<",
+  PrintScreen: "druck", ScrollLock: "rollen", Pause: "pause", Insert: "einfg", Home: "pos1", PageUp: "bildauf",
+  Delete: "entf", End: "ende", PageDown: "bildab", ArrowRight: "rechts", ArrowLeft: "links", ArrowDown: "runter", ArrowUp: "hoch",
+};
+for (let i = 0; i < 26; i++) { const c = String.fromCharCode(97 + i); CODE_TO_KEY["Key" + c.toUpperCase()] = c; }
+for (let i = 0; i < 10; i++) CODE_TO_KEY["Digit" + i] = String(i);
+for (let i = 1; i <= 24; i++) CODE_TO_KEY["F" + i] = "f" + i;
+const KEY_TO_CODE = Object.fromEntries(Object.entries(CODE_TO_KEY).map(([c, k]) => [k, c]));
+const KEY_LABEL = {
+  enter: "↩", esc: "esc", backspace: "⌫", tab: "⇥", leertaste: "Leertaste", capslock: "⇪", entf: "⌦",
+  pos1: "↖", ende: "↘", bildauf: "⇞", bildab: "⇟", links: "←", rechts: "→", hoch: "↑", runter: "↓",
+  einfg: "Einfg", druck: "Druck", rollen: "Rollen", pause: "Pause",
+};
+const MOD_ORDER = ["ctrl", "shift", "alt", "cmd", "rctrl", "rshift", "ralt", "rcmd"];
+// Unter Windows ist „cmd“ die Windows-Taste; die Maus sendet dieselbe Taste.
+const IS_WIN = /Windows/i.test(navigator.userAgent);
+const OS_NAME = IS_WIN ? "Windows" : "macOS";
+const MOD_SYM = IS_WIN
+  ? { ctrl: "Strg", alt: "Alt", shift: "⇧", cmd: "Win", rctrl: "Strg", ralt: "AltGr", rshift: "⇧", rcmd: "Win" }
+  : { ctrl: "⌃", alt: "⌥", shift: "⇧", cmd: "⌘", rctrl: "⌃", ralt: "⌥", rshift: "⇧", rcmd: "⌘" };
+const MOD_SHOW = IS_WIN
+  ? ["ctrl", "rctrl", "cmd", "rcmd", "alt", "ralt", "shift", "rshift"]
+  : ["ctrl", "rctrl", "alt", "ralt", "shift", "rshift", "cmd", "rcmd"];
+const MOD_ALIAS = { win: "cmd", strg: "ctrl", option: "alt" };
+
+const GROUPS = [
+  ["Maus", [["maus:links", "Linksklick"], ["maus:rechts", "Rechtsklick"], ["maus:mitte", "Mittelklick"], ["maus:zurück", "Zurück"], ["maus:vor", "Vor"]]],
+  ["Scrollen", [["rad:links", "Nach links"], ["rad:rechts", "Nach rechts"]]],
+  ["DPI", [["dpi+", "DPI hoch"], ["dpi-", "DPI runter"], ["dpi-wechsel", "DPI durchschalten"], ["dpi-standard", "Start-DPI"], ["sniper", "Sniper (halten)"]]],
+  ["Profil", [["profil+", "Nächstes Profil"], ["profil-", "Voriges Profil"], ["profil-wechsel", "Profile durchschalten"]]],
+  ["Medien", [["medien:play", "Play/Pause"], ["medien:weiter", "Nächster Titel"], ["medien:zurück", "Voriger Titel"], ["medien:lauter", "Lauter"], ["medien:leiser", "Leiser"], ["medien:stumm", "Stumm"]]],
+  ["Sonstiges", [["g-shift", "G-Shift (halten)"], ["akku", "Akkustand zeigen"], ["aus", "Keine Funktion"]]],
+];
+const NAMED = Object.fromEntries(GROUPS.flatMap(([, items]) => items));
+// Kürzel, die das System abfängt, bevor der Browser sie sieht. Als feste Auswahl, weil man sie nicht aufnehmen kann.
+const SYSTEM = IS_WIN ? [
+  ["ctrl+cmd+links", "Desktop links"], ["ctrl+cmd+rechts", "Desktop rechts"], ["cmd+tab", "Aktive Fenster"],
+  ["cmd+d", "Desktop anzeigen"], ["alt+tab", "Fenster wechseln"], ["alt+f4", "Fenster schließen"],
+  ["cmd+l", "PC sperren"], ["shift+cmd+s", "Bildschirmausschnitt"], ["cmd+e", "Explorer"], ["cmd+v", "Zwischenablage-Verlauf"],
+] : [
+  ["ctrl+links", "Schreibtisch links"], ["ctrl+rechts", "Schreibtisch rechts"], ["ctrl+hoch", "Mission Control"],
+  ["ctrl+runter", "App-Fenster"], ["cmd+leertaste", "Spotlight"], ["cmd+tab", "App wechseln"],
+  ["cmd+w", "Fenster schließen"], ["cmd+q", "App beenden"], ["ctrl+cmd+q", "Bildschirm sperren"],
+  ["shift+cmd+3", "Bildschirmfoto"], ["shift+cmd+4", "Bildschirmfoto Bereich"], ["shift+cmd+5", "Bildschirmfoto-Werkzeug"],
+];
+const SYSTEM_NAME = Object.fromEntries(SYSTEM);
+
+// Lage der Tasten auf der Skizze (Draufsicht). G9 und Kipp-Richtungen sind ungefähr.
+const SPOTS = {
+  links: [92, 92, "L"], rechts: [170, 92, "R"], mitte: [131, 72, "M"],
+  rad_links: [108, 62, "←"], rad_rechts: [154, 62, "→"], g9: [131, 132, "G9"],
+  g8: [58, 72, "G8"], g7: [56, 108, "G7"],
+  g5: [44, 198, "G5"], g4: [50, 238, "G4"], g6: [22, 222, "G6"],
+};
+const LABEL = {
+  links: "Links", rechts: "Rechts", mitte: "Mitte", g4: "G4", g5: "G5", g6: "G6", g7: "G7", g8: "G8", g9: "G9",
+  rad_rechts: "Rad →", rad_links: "Rad ←",
+};
+const SUB = {
+  links: "Haupttaste", rechts: "Haupttaste", mitte: "Rad drücken", g4: "Daumen, hinten", g5: "Daumen, vorn",
+  g6: "Daumen, Sniper-Taste", g7: "links, hinten", g8: "links, vorn", g9: "hinter dem Rad",
+  rad_rechts: "Rad nach rechts kippen", rad_links: "Rad nach links kippen",
+};
+const LED_LABEL = ["Logo", "Zone 2"];
+
+let orig = null, draft = null, slot = null, layer = "buttons", sel = "g7", layoutMap = null;
+
+if (navigator.keyboard?.getLayoutMap) navigator.keyboard.getLayoutMap().then(m => { layoutMap = m; if (draft) render(); }).catch(() => {});
+
+// Ohne Layout-Abfrage (Safari, App-Fenster): deutsches Layout annehmen und beim Aufnehmen dazulernen.
+const DE_LAYOUT = { KeyY: "z", KeyZ: "y", Semicolon: "ö", Quote: "ä", BracketLeft: "ü", BracketRight: "+", Minus: "ß", Equal: "´", Backslash: "#", Slash: "-" };
+let learned = {};
+try { learned = JSON.parse(localStorage.getItem("g502-layout") || "{}"); } catch {}
+function learnKey(e) {
+  if (e.key.length !== 1 || e.altKey || e.shiftKey || learned[e.code] === e.key.toLowerCase()) return;
+  learned[e.code] = e.key.toLowerCase();
+  try { localStorage.setItem("g502-layout", JSON.stringify(learned)); } catch {}
+}
+function keyLabel(k) {
+  if (KEY_LABEL[k]) return KEY_LABEL[k];
+  if (/^f\d+$/.test(k)) return k.toUpperCase();
+  const code = KEY_TO_CODE[k];
+  const guess = !layoutMap && /^de/i.test(navigator.language) ? DE_LAYOUT[code] : undefined;
+  const real = code && (layoutMap?.get(code) || learned[code] || guess);
+  return (real || k).toUpperCase();
+}
+function ask(text, ok = "OK") {
+  return new Promise(resolve => {
+    const d = $("#askDlg");
+    $("#askText").textContent = text;
+    $("#askOk").textContent = ok;
+    d.returnValue = "";
+    $("#askOk").onclick = () => d.close("ok");
+    d.onclose = () => resolve(d.returnValue === "ok");
+    d.showModal();
+  });
+}
+function parseCombo(action) {
+  const parts = action.split("+");
+  const mods = parts.filter(p => MOD_SYM[p]);
+  const key = MOD_SYM[parts.at(-1)] ? null : parts.at(-1);
+  return { mods, key };
+}
+function normalize(action) {
+  if (!action || NAMED[action]) return action;
+  const { mods, key } = parseCombo(action);
+  return [...MOD_ORDER.filter(m => mods.includes(m)), ...(key ? [key] : [])].join("+");
+}
+function validCombo(action) {
+  const parts = action.split("+");
+  if (!parts.length || parts.some(p => !p)) return false;
+  return parts.slice(0, -1).every(p => MOD_SYM[p]) && (MOD_SYM[parts.at(-1)] || KEY_TO_CODE[parts.at(-1)]);
+}
+function comboHTML(action) {
+  const { mods, key } = parseCombo(action);
+  const sym = MOD_SHOW.filter(m => mods.includes(m)).map(m => `<span class="kbd">${MOD_SYM[m]}</span>`);
+  if (key) sym.push(`<span class="kbd">${esc(keyLabel(key))}</span>`);
+  return sym.join("");
+}
+function actionHTML(b) {
+  if (b.action == null) return `<span class="tag">Makro</span><span class="macro">${esc(b.text.replace(/^Makro:? ?/, ""))}</span>`;
+  if (b.action === "aus") return `<span class="tag">Keine Funktion</span>`;
+  if (NAMED[b.action]) return `<span class="tag">${esc(NAMED[b.action])}</span>`;
+  const sys = SYSTEM_NAME[b.action];
+  return comboHTML(b.action) + (sys ? `<span class="note">&nbsp;${esc(sys)}</span>` : "");
+}
+
+// ---- Server ----
+async function api(path, body) {
+  const opts = body === undefined ? {} : {
+    method: "POST", headers: { "Content-Type": "application/json", "X-G502": "1" }, body: JSON.stringify(body),
+  };
+  const r = await fetch(path, opts);
+  const j = await r.json().catch(() => ({ error: `HTTP ${r.status}` }));
+  if (!r.ok) throw Object.assign(new Error(j.error || `HTTP ${r.status}`), { status: r.status });
+  return j;
+}
+function busy(text) { $("#busyText").textContent = text || ""; $("#busy").classList.toggle("show", !!text); }
+let toastTimer;
+function toast(text, err) {
+  const t = $("#toast"); t.textContent = text; t.className = "toast show" + (err ? " err" : "");
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => t.className = "toast" + (err ? " err" : ""), err ? 5000 : 2600);
+}
+let retryTimer = null;
+async function load(quiet) {
+  clearTimeout(retryTimer);
+  if (!quiet) busy("Lese Maus …");
+  try { setState(await api("/api/state")); }
+  catch (e) {
+    if (draft) { toast(e.message, true); return; }
+    // 503: Maus schläft oder ist aus. Von selbst weiter versuchen, bis sie antwortet.
+    const asleep = e.status === 503;
+    $("#app").innerHTML = `<div class="empty">${asleep ? "Maus schläft oder ist aus. Kurz bewegen, dann geht es von selbst weiter." : esc(e.message)}
+      <br><br><button class="btn" onclick="load()">Nochmal</button></div>`;
+    if (asleep) retryTimer = setTimeout(() => load(true), 2000);
+  }
+  finally { if (!quiet) busy(); }
+}
+function setState(d) {
+  orig = d; draft = structuredClone(d);
+  const active = d.profiles.find(p => p.active);
+  if (!draft.profiles.some(p => p.slot === slot)) slot = active?.slot ?? draft.profiles[0].slot;
+  render();
+}
+
+// ---- Konfiguration für den Server ----
+function spec(p) {
+  const s = { slot: p.slot, eingeschaltet: p.enabled, dpi: p.dpi, start_dpi: p.start_dpi, sniper_dpi: p.sniper_dpi, hz: p.hz, tasten: {}, gshift: {} };
+  if (p.name != null) s.name = p.name;
+  if (p.active) s.aktiv = true;
+  if (p.leds[0].text) s.logo = p.leds[0].text;
+  if (p.leds[1].text) s.streifen = p.leds[1].text;
+  p.buttons.forEach(b => { if (b.action != null) s.tasten[b.key] = b.action; });
+  p.gshift.forEach(b => { if (b.action != null) s.gshift[b.key] = b.action; });
+  if (p.buttons[0].action !== "maus:links") s.erlaube_links = true;
+  return s;
+}
+function changedProfiles() {
+  return draft.profiles.filter((p, i) => JSON.stringify(spec(p)) !== JSON.stringify(spec(orig.profiles[i])));
+}
+function buttonChanged(i, layerName) {
+  const a = draft.profiles.find(p => p.slot === slot)[layerName][i].action;
+  const b = orig.profiles.find(p => p.slot === slot)[layerName][i].action;
+  return a !== b;
+}
+
+// ---- Darstellung ----
+function render() {
+  $("#device").textContent = draft.device;
+  const bat = $("#battery"), pct = /(\d+) %/.exec(draft.battery || "");
+  bat.hidden = !draft.battery; bat.textContent = "Akku " + (pct ? pct[1] + " %" : draft.battery);
+  bat.title = draft.battery || "";
+  const p = draft.profiles.find(x => x.slot === slot);
+  const changed = new Set(changedProfiles().map(x => x.slot));
+  const list = p[layer];
+
+  $("#app").innerHTML = `
+    <div class="tabs">${draft.profiles.map(x => `
+      <button class="tab ${x.slot === slot ? "sel" : ""}" data-slot="${x.slot}">
+        <span class="n"><span class="dot ${x.active ? "active" : x.enabled ? "on" : ""}"></span>
+          Profil ${x.slot}${x.active ? " · aktiv" : x.enabled ? "" : " · aus"}${changed.has(x.slot) ? ' <span class="changed">•</span>' : ""}</span>
+        <span class="t">${esc(x.name || "Ohne Namen")}</span>
+      </button>`).join("")}
+    </div>
+    <div class="grid">
+      <div class="card mousebox">${mouseSVG(p)}<div class="hint">Taste anklicken zum Belegen</div></div>
+      <div class="card"><div class="body">
+        <div class="layer">
+          <button data-layer="buttons" class="${layer === "buttons" ? "on" : ""}">Belegung</button>
+          <button data-layer="gshift" class="${layer === "gshift" ? "on" : ""}">Bei gehaltenem G-Shift</button>
+        </div>
+        <div class="rows">${list.map((b, i) => `
+          <button class="row ${b.key === sel ? "sel" : ""}" data-btn="${b.key}">
+            <span class="k">${esc(LABEL[b.key] || b.label)}${buttonChanged(i, layer) ? '<span class="mark">•</span>' : ""}<small>${esc(SUB[b.key] || "")}</small></span>
+            <span class="act">${actionHTML(b)}</span>
+            <span class="edit">Ändern</span>
+          </button>`).join("")}
+        </div>
+      </div></div>
+    </div>
+    <div class="settings">
+      <div class="card"><div class="body">
+        <h2>Profil</h2>
+        <div class="field"><label for="pname">Name</label>
+          <input class="input" id="pname" maxlength="24" value="${esc(p.name ?? "")}" placeholder="Ohne Namen" style="flex:1"></div>
+        <div class="field"><label>Eingeschaltet</label>
+          <label class="switch"><input type="checkbox" id="penabled" ${p.enabled ? "checked" : ""} ${p.active ? "disabled" : ""}><span></span></label>
+          ${p.active ? '<span class="note">Aktives Profil bleibt an</span>' : ""}</div>
+        <div class="field"><label>Aktiv</label>
+          ${p.active ? '<span class="tag">Wird gerade benutzt</span>' : '<button class="btn small" id="pactive">Dieses Profil benutzen</button>'}</div>
+        <div class="field"><label>Abfragerate</label>
+          <div class="seg">${[125, 250, 500, 1000].map(h => `<button data-hz="${h}" class="${p.hz === h ? "on" : ""}">${h} Hz</button>`).join("")}</div></div>
+        ${p.leds.map((l, i) => ledField(l, i)).join("")}
+      </div></div>
+      <div class="card"><div class="body">
+        <h2>DPI-Stufen</h2>
+        <table class="dpi-table">
+          <tr><th>DPI</th><th>Start</th><th>Sniper</th><th></th></tr>
+          ${p.dpi.map((d, i) => `<tr>
+            <td><input class="input" type="number" min="100" max="25600" step="50" value="${d}" data-dpi="${i}"></td>
+            <td><input type="radio" name="start" data-start="${i}" ${p.start_dpi === d ? "checked" : ""}></td>
+            <td><input type="radio" name="sniper" data-sniper="${i}" ${p.sniper_dpi === d ? "checked" : ""}></td>
+            <td>${p.dpi.length > 1 ? `<button class="x" data-deldpi="${i}" title="Stufe entfernen">✕</button>` : ""}</td>
+          </tr>`).join("")}
+        </table>
+        ${p.dpi.length < 5 ? '<button class="btn small" id="adddpi" style="margin-top:8px">+ Stufe</button>' : ""}
+        <p class="note">Sniper gilt, solange die Sniper-Taste gehalten wird.</p>
+        <details class="backups"><summary>Sicherungen</summary>
+          <div class="field">
+            <select class="input" id="backupSel" style="flex:1">${draft.backups.map(b => `<option>${esc(b)}</option>`).join("")}</select>
+            <button class="btn small danger" id="restore">Einspielen</button>
+          </div>
+          <p class="note">Vor jedem Schreiben wird automatisch gesichert. „original.json“ ist der Zustand vor dem ersten Schreiben.</p>
+        </details>
+      </div></div>
+    </div>`;
+
+  const n = changed.size;
+  $("#footer").classList.toggle("show", n > 0 && view === "tasten");
+  $("#dirtyText").textContent = n ? `Ungeschriebene Änderungen in ${n === 1 ? "Profil " + [...changed][0] : n + " Profilen"}` : "";
+  bind(p);
+}
+
+function ledField(l, i) {
+  const mode = l.text == null ? "keep" : l.text === "aus" ? "aus" : l.text.startsWith("#") ? "fest" : "wechsel";
+  const [, ms = 8000, br = 100] = mode === "wechsel" ? l.text.split(" ") : [];
+  return `<div class="field"><label>${LED_LABEL[i]}</label>
+    <select class="input" data-ledmode="${i}">
+      ${mode === "keep" ? `<option value="keep" selected>${esc(l.desc)}</option>` : ""}
+      <option value="aus" ${mode === "aus" ? "selected" : ""}>Aus</option>
+      <option value="fest" ${mode === "fest" ? "selected" : ""}>Feste Farbe</option>
+      <option value="wechsel" ${mode === "wechsel" ? "selected" : ""}>Farbwechsel</option>
+    </select>
+    ${mode === "fest" ? `<input type="color" data-ledcolor="${i}" value="${l.text}">` : ""}
+    ${mode === "wechsel" ? `<label class="note">Tempo <input type="range" min="1000" max="20000" step="500" value="${ms}" data-ledms="${i}"></label>
+      <label class="note">Hell <input type="range" min="0" max="100" value="${br}" data-ledbr="${i}"></label>` : ""}
+  </div>`;
+}
+
+function mouseSVG(p) {
+  const logo = p.leds[0].text;
+  const fill = !logo || logo === "aus" ? "var(--mouse-spot)" : logo.startsWith("#") ? logo : "#ff3c6e";
+  const spots = p[layer].map((b, i) => {
+    const [x, y, t] = SPOTS[b.key] || [0, 0, "?"];
+    return `<g class="spot ${b.key === sel ? "sel" : ""} ${buttonChanged(i, layer) ? "changed" : ""}" data-btn="${b.key}">
+      <title>${esc(LABEL[b.key] || b.label)}</title><circle cx="${x}" cy="${y}" r="${t.length > 1 ? 13 : 11}"/><text x="${x}" y="${y}">${esc(t)}</text></g>`;
+  }).join("");
+  return `<svg viewBox="0 0 260 400" role="img" aria-label="Maus von oben">
+    <path d="M131 12 C180 12 214 30 221 80 L231 190 C237 252 226 330 196 368 C176 392 152 397 131 397 C108 397 84 392 66 372 C50 354 46 322 44 292 L18 262 C8 250 8 226 16 212 L40 186 L44 86 C48 34 84 12 131 12 Z"
+      fill="var(--mouse)" stroke="var(--mouse-edge)" stroke-width="2"/>
+    <path d="M131 18 L131 44 M131 104 L131 118" stroke="var(--mouse-edge)" stroke-width="2"/>
+    <path d="M45 160 C92 174 172 174 228 160" fill="none" stroke="var(--mouse-edge)" stroke-width="2"/>
+    <rect x="121" y="44" width="20" height="60" rx="9" fill="#3a3a3e" stroke="var(--mouse-edge)"/>
+    <g class="${logo && logo.startsWith("farbwechsel") ? "logo-cycle" : ""}">
+      <circle cx="131" cy="300" r="20" fill="${fill}" opacity=".9"/>
+      <text x="131" y="301" text-anchor="middle" dominant-baseline="central" font-size="20" font-weight="800" fill="var(--mouse)">G</text>
+    </g>
+    ${spots}
+  </svg>`;
+}
+
+function bind(p) {
+  document.querySelectorAll("[data-slot]").forEach(el => el.onclick = () => { slot = +el.dataset.slot; render(); });
+  document.querySelectorAll("[data-layer]").forEach(el => el.onclick = () => { layer = el.dataset.layer; render(); });
+  document.querySelectorAll("[data-btn]").forEach(el => el.onclick = () => { sel = el.dataset.btn; openEditor(); });
+  $("#pname").oninput = e => { p.name = e.target.value || (orig.profiles.find(x => x.slot === slot).name == null ? null : ""); updateDirty(); };
+  $("#penabled").onchange = e => { p.enabled = e.target.checked; render(); };
+  const act = $("#pactive");
+  if (act) act.onclick = () => { draft.profiles.forEach(x => x.active = false); p.active = true; p.enabled = true; render(); };
+  document.querySelectorAll("[data-hz]").forEach(el => el.onclick = () => { p.hz = +el.dataset.hz; render(); });
+
+  document.querySelectorAll("[data-dpi]").forEach(el => el.onchange = () => {
+    const i = +el.dataset.dpi, old = p.dpi[i];
+    const v = Math.min(25600, Math.max(100, Math.round(+el.value / 50) * 50 || 100));
+    p.dpi[i] = v;
+    if (p.start_dpi === old) p.start_dpi = v;
+    if (p.sniper_dpi === old) p.sniper_dpi = v;
+    render();
+  });
+  document.querySelectorAll("[data-start]").forEach(el => el.onchange = () => { p.start_dpi = p.dpi[+el.dataset.start]; render(); });
+  document.querySelectorAll("[data-sniper]").forEach(el => el.onchange = () => { p.sniper_dpi = p.dpi[+el.dataset.sniper]; render(); });
+  document.querySelectorAll("[data-deldpi]").forEach(el => el.onclick = () => {
+    const [gone] = p.dpi.splice(+el.dataset.deldpi, 1);
+    if (p.start_dpi === gone) p.start_dpi = p.dpi[0];
+    if (p.sniper_dpi === gone) p.sniper_dpi = Math.min(...p.dpi);
+    render();
+  });
+  const add = $("#adddpi");
+  if (add) add.onclick = () => { p.dpi.push(Math.min(25600, Math.max(...p.dpi) * 2)); render(); };
+
+  document.querySelectorAll("[data-ledmode]").forEach(el => el.onchange = () => {
+    const l = p.leds[+el.dataset.ledmode], v = el.value;
+    l.text = v === "keep" ? orig.profiles.find(x => x.slot === slot).leds[+el.dataset.ledmode].text
+      : v === "aus" ? "aus" : v === "fest" ? "#0a7cff" : "farbwechsel 8000 100";
+    render();
+  });
+  document.querySelectorAll("[data-ledcolor]").forEach(el => el.oninput = () => { p.leds[+el.dataset.ledcolor].text = el.value; renderMouseOnly(p); updateDirty(); });
+  const ledSlider = (i) => {
+    const ms = $(`[data-ledms="${i}"]`).value, br = $(`[data-ledbr="${i}"]`).value;
+    p.leds[i].text = `farbwechsel ${ms} ${br}`; updateDirty();
+  };
+  document.querySelectorAll("[data-ledms],[data-ledbr]").forEach(el => el.oninput = () => ledSlider(+(el.dataset.ledms ?? el.dataset.ledbr)));
+
+  $("#restore").onclick = restore;
+}
+function renderMouseOnly(p) { $(".mousebox").innerHTML = mouseSVG(p) + '<div class="hint">Taste anklicken zum Belegen</div>'; document.querySelectorAll(".mousebox [data-btn]").forEach(el => el.onclick = () => { sel = el.dataset.btn; openEditor(); }); }
+function updateDirty() {
+  const changed = changedProfiles();
+  $("#footer").classList.toggle("show", changed.length > 0);
+  $("#dirtyText").textContent = changed.length ? `Ungeschriebene Änderungen in ${changed.length === 1 ? "Profil " + changed[0].slot : changed.length + " Profilen"}` : "";
+  document.querySelectorAll(".tab").forEach(t => {
+    const s = +t.dataset.slot, mark = t.querySelector(".changed");
+    if (changed.some(c => c.slot === s) && !mark) t.querySelector(".n").insertAdjacentHTML("beforeend", ' <span class="changed">•</span>');
+    if (!changed.some(c => c.slot === s) && mark) mark.remove();
+  });
+}
+
+// ---- Taste belegen ----
+let candidate = null, recording = false, heldKey = false, intercepted = false;
+function openEditor() {
+  render();
+  const p = draft.profiles.find(x => x.slot === slot);
+  const b = p[layer].find(x => x.key === sel);
+  candidate = b.action;
+  $("#editTitle").textContent = `${LABEL[b.key] || b.label} belegen` + (layer === "gshift" ? " (G-Shift)" : "");
+  $("#manual").value = candidate && !NAMED[candidate] && candidate !== "aus" ? candidate : "";
+  intercepted = false;
+  $("#groups").innerHTML = [[OS_NAME, SYSTEM], ...GROUPS].map(([title, items]) => `<div class="group" data-group="${title}"><h4>${title}</h4><div class="chips">
+    ${items.map(([a, l]) => `<button class="chip" data-pick="${a}">${l}</button>`).join("")}</div></div>`).join("");
+  document.querySelectorAll("[data-pick]").forEach(el => el.onclick = () => {
+    candidate = el.dataset.pick;
+    $("#manual").value = SYSTEM_NAME[candidate] ? candidate : "";
+    intercepted = false;
+    showCandidate();
+  });
+  showCandidate();
+  $("#editDlg").showModal();
+  $("#rec").focus();
+}
+function showCandidate() {
+  const keys = $("#recKeys"), lbl = $("#recLbl");
+  document.querySelectorAll("[data-pick]").forEach(el => el.classList.toggle("on", el.dataset.pick === candidate));
+  if (intercepted) {
+    keys.innerHTML = candidate && !NAMED[candidate] && candidate !== "aus" ? comboHTML(candidate) : "";
+    lbl.textContent = `Das Kürzel hat ${OS_NAME} selbst benutzt. Unter „${OS_NAME}“ wählen oder unten eintippen.`;
+  } else if (candidate && !NAMED[candidate] && candidate !== "aus") {
+    keys.innerHTML = comboHTML(candidate);
+    const sys = SYSTEM_NAME[candidate];
+    lbl.textContent = sys ? `${sys} · klicken und neu drücken, um zu ändern`
+      : recording ? "Andere Kombination drücken, um zu ersetzen" : "Klicken und neu drücken, um zu ändern";
+  } else {
+    keys.innerHTML = "";
+    lbl.textContent = candidate ? `Gewählt: ${NAMED[candidate] || "Keine Funktion"} · oder hier klicken für ein Tastenkürzel` : "Hier klicken, dann Tastenkombination drücken";
+  }
+  $("#editOk").disabled = !candidate;
+}
+function modsOf(e) {
+  return MOD_ORDER.filter(m => ({ ctrl: e.ctrlKey, shift: e.shiftKey, alt: e.altKey, cmd: e.metaKey })[m]);
+}
+const rec = $("#rec");
+rec.addEventListener("focus", () => { recording = true; heldKey = false; intercepted = false; showCandidate(); });
+rec.addEventListener("blur", () => {
+  // Verliert das ganze Fenster den Fokus, hat meist macOS das Kürzel ausgeführt (z. B. Schreibtisch gewechselt).
+  if (recording && !document.hasFocus()) {
+    intercepted = true;
+    $(`[data-group="${OS_NAME}"]`)?.scrollIntoView({ block: "nearest" });
+  }
+  recording = false;
+  showCandidate();
+});
+rec.addEventListener("keydown", e => {
+  e.preventDefault(); e.stopPropagation();
+  const isMod = /^(Shift|Control|Alt|Meta)/.test(e.code);
+  if (isMod) {
+    if (!heldKey) $("#recKeys").innerHTML = modsOf(e).map(m => `<span class="kbd">${MOD_SYM[m]}</span>`).join("");
+    return;
+  }
+  const key = CODE_TO_KEY[e.code];
+  if (!key) { $("#recLbl").textContent = `Taste „${e.key}“ kann die Maus nicht senden`; return; }
+  heldKey = true;
+  learnKey(e);
+  candidate = normalize([...modsOf(e), key].join("+"));
+  $("#manual").value = candidate;
+  showCandidate();
+});
+rec.addEventListener("keyup", e => {
+  e.preventDefault();
+  const isMod = /^(Shift|Control|Alt|Meta)/.test(e.code);
+  // Nur Zusatztasten gedrückt und wieder losgelassen: die Zusatztaste allein belegen.
+  if (isMod && !heldKey && !e.ctrlKey && !e.shiftKey && !e.altKey && !e.metaKey) {
+    const m = { Shift: "shift", Control: "ctrl", Alt: "alt", Meta: "cmd" }[e.code.replace(/(Left|Right)$/, "")];
+    if (m) { candidate = m; $("#manual").value = m; showCandidate(); }
+  }
+  if (!e.ctrlKey && !e.shiftKey && !e.altKey && !e.metaKey) heldKey = false;
+});
+$("#manual").addEventListener("input", e => {
+  const v = e.target.value.trim().toLowerCase().replace(/\s+/g, "").split("+").map(p => MOD_ALIAS[p] || p).join("+");
+  if (!v) return;
+  if (validCombo(v)) { candidate = normalize(v); intercepted = false; showCandidate(); $("#manualNote").textContent = "Tastennamen beziehen sich auf die Position der Taste."; }
+  else { $("#editOk").disabled = true; $("#manualNote").textContent = "Unbekannt. Zusatztasten: ctrl, shift, alt, cmd. Tasten: a–z, 0–9, f1–f24, enter, esc, tab, leertaste, entf, links, rechts, hoch, runter …"; }
+});
+$("#editDlg").addEventListener("cancel", e => { if (document.activeElement === rec) e.preventDefault(); });
+$("#editOk").onclick = async () => {
+  const p = draft.profiles.find(x => x.slot === slot);
+  const i = p[layer].findIndex(x => x.key === sel);
+  if (sel === "links" && layer === "buttons" && candidate !== "maus:links" &&
+      !await ask("Die linke Taste anders belegen? Klicken geht dann nur noch über eine andere Taste.", "Umbelegen")) return;
+  const old = p.buttons[i].action;
+  p[layer][i].action = candidate;
+  p[layer][i].text = "";
+  // G-Shift folgt der normalen Belegung, solange sie dort nicht eigens geändert wurde.
+  if (layer === "buttons" && p.gshift[i].action === old) p.gshift[i].action = candidate;
+  $("#editDlg").close();
+  render();
+};
+document.querySelectorAll("[data-close]").forEach(el => el.onclick = () => el.closest("dialog").close());
+
+// ---- Schreiben ----
+$("#discard").onclick = () => { draft = structuredClone(orig); render(); };
+$("#reload").onclick = async () => {
+  if (view === "programme") { loadApps(); return; }
+  if (changedProfiles().length && !await ask("Ungeschriebene Änderungen verwerfen und neu lesen?", "Verwerfen")) return;
+  load();
+};
+$("#write").onclick = async () => {
+  const specs = changedProfiles().map(spec);
+  try {
+    const plan = await api("/api/plan", { profiles: specs });
+    if (!plan.changes.length && plan.active == null) { toast("Nichts zu ändern"); draft = structuredClone(orig); render(); return; }
+    $("#planBody").innerHTML = plan.changes.map(c => `<h4>${esc(c.label)}</h4><table class="diff">
+      ${c.lines.map(([k, a, b]) => `<tr><td>${esc(k)}</td><td><span class="old">${esc(a)}</span><br>${esc(b)}</td></tr>`).join("")}</table>`).join("")
+      + (plan.active != null ? `<h4>Aktives Profil</h4><p>Profil ${plan.active} wird benutzt.</p>` : "")
+      + `<p class="note">Vorher wird der jetzige Stand gesichert.</p>`;
+    $("#planDlg").showModal();
+    $("#planOk").onclick = async () => {
+      $("#planDlg").close();
+      busy("Schreibe in die Maus …");
+      try {
+        const d = await api("/api/write", { profiles: specs });
+        setState(d);
+        toast(d.written.length ? `Geschrieben: ${d.written.join(", ")}` : "Profil gewechselt");
+      } catch (e) { toast(e.message, true); }
+      finally { busy(); }
+    };
+  } catch (e) { toast(e.message, true); }
+};
+async function restore() {
+  const name = $("#backupSel").value;
+  if (!await ask(`Sicherung „${name}“ in die Maus zurückspielen? Ungeschriebene Änderungen gehen verloren.`, "Einspielen")) return;
+  busy("Spiele Sicherung ein …");
+  try {
+    const d = await api("/api/restore", { name });
+    setState(d);
+    toast(d.written.length ? `Zurückgespielt: ${d.written.join(", ")}` : "Maus war schon auf diesem Stand");
+  } catch (e) { toast(e.message, true); }
+  finally { busy(); }
+}
+
+if (IS_WIN) {
+  $('[data-view="programme"]').hidden = true;
+  $("#manual").placeholder = "oder eintippen, z. B. strg+c";
+  $("#manualNote").textContent = "Kürzel, die Windows selbst benutzt (Win+D, Alt+Tab …), kommen hier nicht an. Die unter „Windows“ wählen oder eintippen.";
+}
+
+// ---- Programme ----
+let view = "tasten", appsData = null;
+document.querySelectorAll("[data-view]").forEach(el => el.onclick = () => {
+  view = el.dataset.view;
+  document.querySelectorAll("[data-view]").forEach(b => b.classList.toggle("on", b === el));
+  $("#app").hidden = view !== "tasten";
+  $("#appsView").hidden = view !== "programme";
+  $("#footer").classList.toggle("show", view === "tasten" && !!draft && changedProfiles().length > 0);
+  if (view === "programme") loadApps();
+});
+async function loadApps() {
+  try { appsData = await api("/api/apps"); renderApps(); }
+  catch (e) { toast(e.message, true); }
+}
+async function saveApps() {
+  try { appsData = await api("/api/apps", { settings: appsData.settings }); renderApps(); toast("Gespeichert"); }
+  catch (e) { toast(e.message, true); loadApps(); }
+}
+function profileOptions(selected, noneLabel) {
+  const list = (draft?.profiles || [1, 2, 3, 4, 5].map(n => ({ slot: n, name: null, enabled: true })));
+  return (noneLabel ? `<option value="" ${selected == null ? "selected" : ""}>${noneLabel}</option>` : "")
+    + list.map(p => `<option value="${p.slot}" ${p.slot === selected ? "selected" : ""} ${p.enabled ? "" : "disabled"}>
+        Profil ${p.slot} · ${esc(p.name || "Ohne Namen")}${p.enabled ? "" : " (aus)"}</option>`).join("");
+}
+function renderApps() {
+  const { settings: st, running, app, log } = appsData;
+  const mapped = Object.entries(st.apps).sort((a, b) => a[1].name.localeCompare(b[1].name));
+  const free = running.filter(r => !st.apps[r.id]);
+  const icon = id => `<img src="/api/icon?id=${encodeURIComponent(id)}" alt="" onerror="this.style.visibility='hidden'">`;
+  $("#appsView").innerHTML = `
+    <div class="card"><div class="body">
+      <div class="field" style="justify-content:space-between;flex-wrap:nowrap">
+        <div><b>Profil nach Programm wechseln</b><div class="note">Holst du ein Programm nach vorne, wechselt die Maus auf sein Profil.</div></div>
+        <label class="switch"><input type="checkbox" id="auto" ${st.auto ? "checked" : ""}><span></span></label>
+      </div>
+      ${app ? "" : '<p class="note">Wechselt nur, solange die G502-App läuft.</p>'}
+      <table class="apps">
+        ${mapped.map(([id, a]) => `<tr>
+          <td style="width:40px">${icon(id)}</td>
+          <td><div class="nm">${esc(a.name)}</div><div class="id">${esc(id)}</div></td>
+          <td><select class="input" data-app="${esc(id)}">${profileOptions(a.profile)}</select></td>
+          <td style="width:36px"><button class="x" data-delapp="${esc(id)}" title="Entfernen">✕</button></td>
+        </tr>`).join("")}
+        <tr>
+          <td></td>
+          <td><div class="nm">Alle anderen Programme</div></td>
+          <td><select class="input" id="defaultProfile">${profileOptions(st.default, "Profil nicht wechseln")}</select></td>
+          <td></td>
+        </tr>
+      </table>
+      <div class="field" style="margin:14px 0 0">
+        <select class="input" id="addApp" style="flex:1;max-width:320px">
+          ${free.length ? free.map(r => `<option value="${esc(r.id)}">${esc(r.name)}</option>`).join("") : "<option disabled>Keine weiteren laufenden Programme</option>"}
+        </select>
+        <button class="btn small" id="addAppBtn" ${free.length ? "" : "disabled"}>Programm hinzufügen</button>
+      </div>
+      <p class="note">Zur Auswahl stehen laufende Programme. Ausgeschaltete Profile lassen sich unter „Tasten“ einschalten.</p>
+    </div></div>
+    <div class="card" style="margin-top:16px"><div class="body">
+      <h2>Zuletzt gewechselt</h2>
+      ${log.length ? `<ul class="log">${log.map(l => `<li><span class="t">${esc(l.time)}</span><span>${esc(l.reason)} → Profil ${l.profile}${l.name ? " · " + esc(l.name) : ""}</span></li>`).join("")}</ul>` : '<p class="note">Noch nichts.</p>'}
+    </div></div>`;
+
+  $("#auto").onchange = e => { st.auto = e.target.checked; saveApps(); };
+  $("#defaultProfile").onchange = e => { st.default = e.target.value ? +e.target.value : null; saveApps(); };
+  document.querySelectorAll("[data-app]").forEach(el => el.onchange = () => { st.apps[el.dataset.app].profile = +el.value; saveApps(); });
+  document.querySelectorAll("[data-delapp]").forEach(el => el.onclick = () => { delete st.apps[el.dataset.delapp]; saveApps(); });
+  const add = $("#addAppBtn");
+  if (add) add.onclick = () => {
+    const r = free.find(x => x.id === $("#addApp").value);
+    if (!r) return;
+    const first = draft?.profiles.find(p => p.active) || draft?.profiles.find(p => p.enabled);
+    st.apps[r.id] = { name: r.name, profile: first ? first.slot : 1 };
+    saveApps();
+  };
+}
+
+// Vom App-Fenster aufgerufen, wenn es wieder geöffnet wird.
+window.g502Shown = () => {
+  if (view === "programme") loadApps();
+  if (!draft || !changedProfiles().length) load();
+};
+
+load();
+</script>
+</body>
+</html>

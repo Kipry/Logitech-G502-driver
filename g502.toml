@@ -1,0 +1,37 @@
+# Belegung der G502 Lightspeed. Anwenden mit:  .venv/bin/python g502.py schreiben
+# Vorher ansehen, was sich ändert:              .venv/bin/python g502.py pruefen
+#
+# Nicht genannte Einträge bleiben, wie sie in der Maus stehen.
+#
+# Tasten:  links rechts mitte g4 g5 g6 g7 g8 g9 rad_rechts rad_links
+#          (g4 = zurück, g5 = vor, g6 = Sniper, g7/g8 = neben der linken Taste, g9 = hinter dem Rad,
+#           rad_* = Rad kippen)
+# Aktionen:
+#   Tastatur   "cmd+c", "ctrl+cmd+rechts", "f13", "enter", "shift"
+#              Zusatztasten: ctrl, shift, alt, cmd
+#   Maus       "maus:links" "maus:rechts" "maus:mitte" "maus:zurück" "maus:vor"
+#   Rad        "rad:links" "rad:rechts"   (waagerecht scrollen)
+#   DPI        "dpi+" "dpi-" "dpi-wechsel" "dpi-standard" "sniper"
+#   Profile    "profil+" "profil-" "profil-wechsel"
+#   Medien     "medien:lauter" "medien:leiser" "medien:stumm" "medien:play" "medien:weiter" "medien:zurück"
+#   Sonstiges  "g-shift" (zweite Belegung, solange gedrückt), "akku", "aus"
+# LEDs (logo, streifen): "aus", "#ff8800", "farbwechsel", "farbwechsel 8000 60"  (ms, Helligkeit %)
+
+# Beispiel (auskommentiert, damit nichts versehentlich überschrieben wird):
+# [[profil]]
+# slot = 4
+# name = "PC"
+# eingeschaltet = false
+# dpi = [800, 1600, 3200]
+# start_dpi = 1600
+# sniper_dpi = 800
+# hz = 1000
+# logo = "#ff8800"
+# streifen = "aus"
+#
+# [profil.tasten]
+# g7 = "cmd+c"
+# g8 = "cmd+v"
+# g9 = "dpi-wechsel"
+# rad_rechts = "ctrl+rechts"
+# rad_links = "ctrl+links"
